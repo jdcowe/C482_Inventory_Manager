@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="346.0" prefWidth="343.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.ModifyPartController">
+<AnchorPane prefHeight="346.0" prefWidth="343.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.AddProductController">
    <children>
       <AnchorPane prefHeight="502.0" prefWidth="806.0">
          <children>
