@@ -1,10 +1,12 @@
 package Model;
 
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 
 public class Product {
 
-    private ArrayList<Part> associatedParts = new ArrayList<Part>();
+    private  ObservableList<Part> associatedParts;
     private int productID;
     private String name;
     private double price;
@@ -12,8 +14,28 @@ public class Product {
     private int min;
     private int max;
 
+    public Product() {}
+
+    public Product (int productID, ObservableList<Part> associatedParts, String name, double price, int inStock, int min, int max) {
+        this.productID = productID;
+        this.associatedParts = associatedParts;
+        this.name = name;
+        this.price = price;
+        this.inStock = inStock;
+        this.min = min;
+        this.max = max;
+    }
+
     public int getProductID() {
         return productID;
+    }
+
+    public ObservableList<Part> lookupAssociatedParts() {
+        return associatedParts;
+    }
+
+    public void addAssociatedParts(ObservableList<Part> associatedParts) {
+        this.associatedParts = associatedParts;
     }
 
     public void setProductID(int productID) {
@@ -60,16 +82,8 @@ public class Product {
         this.max = max;
     }
 
-    public void addAssociatedPart(Part part) {
-
-    }
-
     public boolean removeAssociatedPArt(int partNum) {
         return false;
-    }
-
-    public Part lookupAssociatedPart(int partNum) {
-        return part;
     }
 
 
