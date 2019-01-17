@@ -33,9 +33,10 @@ import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
 
-    private static Inventory Inventory = new Inventory();
-    private static ObservableList<Part> searchParts = FXCollections.observableArrayList();
-    private static ObservableList<Product> searchProducts = FXCollections.observableArrayList();
+    public static Inventory Inventory = new Inventory();
+    public static ObservableList<Part> searchParts = FXCollections.observableArrayList();
+    public static ObservableList<Product> searchProducts = FXCollections.observableArrayList();
+    private static int selectedPartNum;
 
 
     @FXML
@@ -67,12 +68,25 @@ public class MainScreenController implements Initializable {
     @FXML
     private TableColumn<Product, Double> colProductPrice;
 
-    private static Part selectedPart;
-    private static Product selectedProduct;
+    public static Part selectedPart;
+    public static Product selectedProduct;
+    public static int partModifyIndex;
 
     @FXML
     void addPart(ActionEvent event) {
         sceneChange("AddPart.fxml", event);
+    }
+
+    public static Inventory getInventory() {
+        return Inventory;
+    }
+
+    public static void setInventory(Inventory inv) {
+        Inventory = inv;
+    }
+
+    public static int getPartModifyIndex() {
+        return partModifyIndex;
     }
 
     @FXML
@@ -132,9 +146,13 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void modifyPart(ActionEvent event) throws IOException {
-        selectedPart = partsTable.getSelectionModel().getSelectedItem();
+        selectedPartNum = partsTable.getSelectionModel().getSelectedIndex();
         sceneChange("ModifyPart.fxml", event);
 
+    }
+
+    public static int getSelectedPart() {
+        return selectedPartNum;
     }
 
     @FXML
@@ -163,7 +181,7 @@ public class MainScreenController implements Initializable {
             }
         } catch(NumberFormatException exception) {
             for(Part part : searchParts) {
-                if (part.getPartName().equals((searchValue))) {
+                if (part.getName().equals((searchValue))) {
                     partFound = true;
                     foundId = part.getPartID()-1;
                 }
@@ -240,10 +258,16 @@ public class MainScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        colPartID.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
+
+        colPartID.setCellValueFactory(cellData -> cellData.getValue().getPartIDProperty().asObject());
+        colPartName.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
+        colPartInventory.setCellValueFactory(cellData -> cellData.getValue().getInStockProperty().asObject());
+        colPartCost.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty().asObject());
+
+        /*colPartID.setCellValueFactory(new PropertyValueFactory<Part, Integer>("partID"));
         colPartName.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
         colPartInventory.setCellValueFactory(new PropertyValueFactory<Part, Integer>("inStock"));
-        colPartCost.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+        colPartCost.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));*/
 
         colProductID.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productID"));
         colProductName.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
@@ -252,8 +276,6 @@ public class MainScreenController implements Initializable {
 
         partsTable.setItems(Inventory.getAllParts());
         productsTable.setItems(Inventory.getAllProducts());
-        partsTable.refresh();
-        productsTable.refresh();
     }
 
 }

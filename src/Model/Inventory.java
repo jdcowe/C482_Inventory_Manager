@@ -3,12 +3,14 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-
 public class Inventory {
 
     public static ObservableList<Product> allProducts = FXCollections.observableArrayList();
     public static ObservableList<Part> allParts = FXCollections.observableArrayList();
+
+    public Inventory() {
+
+    }
 
     public static ObservableList<Product> getAllProducts() {
         return allProducts;
@@ -46,6 +48,10 @@ public class Inventory {
         targetProduct.setPrice(product.getPrice());
     }
 
+    public void updatePart(int partID, Part part) {
+        allParts.set(partID, part);
+    }
+
     public void addPart(Part part) {
         allParts.add(part);
     }
@@ -56,12 +62,7 @@ public class Inventory {
 
     public Part lookupPart(int partID) {
 
-        for (int i = 0; i < allParts.size(); i++) {
-            if (allParts.get(i).getPartID() == partID) {
-                return allParts.get(i);
-            }
-        }
-        return null;
+        return allParts.get(partID);
 
     }
 

@@ -1,58 +1,81 @@
 package Model;
 
+import javafx.beans.property.*;
+
 public abstract class Part {
-    protected int partID;
-    protected String name;
-    protected double price;
-    protected int inStock;
-    protected int min;
-    protected int max;
+    private final IntegerProperty partID;
+    private final StringProperty name;
+    private final DoubleProperty price;
+    private final IntegerProperty inStock;
+    private final IntegerProperty min;
+    private final IntegerProperty max;
 
-    public int getPartID() {
-        return partID;
+    public Part() {
+        this.partID = new SimpleIntegerProperty();
+        this.name  = new SimpleStringProperty();
+        this.price  = new SimpleDoubleProperty();
+        this.inStock  = new SimpleIntegerProperty();
+        this.min = new SimpleIntegerProperty();
+        this.max = new SimpleIntegerProperty();
     }
 
-    public void setPartID(int partID) {
-        this.partID = partID;
+    public IntegerProperty getPartIDProperty() {
+        return this.partID;
+    }
+    public IntegerProperty getInStockProperty() {
+        return this.inStock;
+    }
+    public IntegerProperty getMinProperty() {
+        return this.min;
     }
 
-    public String getPartName() {
-        return name;
+    public IntegerProperty getMaxProperty() {
+        return this.max;
     }
 
-    public void setPartName(String name) {
-        this.name = name;
+    public DoubleProperty getPriceProperty() {
+        return this.price;
     }
 
-    public double getPartPrice() {
-        return price;
+    public StringProperty getNameProperty() {
+        return this.name;
     }
 
-    public void setPartPrice(double price) {
-        this.price = price;
+    public  void setName(String name) {
+        this.name.set(name);
     }
-
-    public int getPartInStock() {
-        return inStock;
+    public  String getName() {
+        return name.get();
     }
-
-    public void setPartInStock(int inStock) {
-        this.inStock = inStock;
+    public  void setPrice(double price) {
+        this.price.set(price);
     }
-
-    public int getPartMin() {
-        return min;
+    public  double getPrice() {
+        return price.get();
     }
+    public  void setInStock(int inStock) {
+        this.inStock.set(inStock);
 
-    public void setPartMin(int min) {
-        this.min = min;
     }
-
-    public int getPartMax() {
-        return max;
+    public  int getInStock() {
+        return inStock.get();
     }
-
-    public void setPartMax(int max) {
-        this.max = max;
+    public  void setMin(int min) {
+        this.min.set(min);
+    }
+    public  int getMin() {
+        return min.get();
+    }
+    public  void setMax(int max) {
+        this.max.set(max);
+    }
+    public  int getMax() {
+        return max.get();
+    }
+    public  void setPartID(int partID) {
+        this.partID.set(partID);
+    }
+    public  int getPartID() {
+        return partID.get();
     }
 }
