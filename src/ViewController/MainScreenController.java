@@ -37,6 +37,7 @@ public class MainScreenController implements Initializable {
     public static ObservableList<Part> searchParts = FXCollections.observableArrayList();
     public static ObservableList<Product> searchProducts = FXCollections.observableArrayList();
     private static int selectedPartNum;
+    private static int selectedProductNum;
 
 
     @FXML
@@ -157,8 +158,12 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void modifyProduct(ActionEvent event) {
-        selectedProduct = productsTable.getSelectionModel().getSelectedItem();
+        selectedProductNum = productsTable.getSelectionModel().getSelectedIndex();
         sceneChange("ModifyProduct.fxml", event);
+    }
+
+    public static int getSelectedProduct() {
+        return selectedProductNum;
     }
 
     @FXML

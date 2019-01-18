@@ -29,13 +29,7 @@ public class Inventory {
     }
 
     public Product lookupProduct(int productID) {
-        for (int i = 0; i < allProducts.size()-1; i++) {
-            if (allProducts.get(i).getProductID() == productID) {
-                return allProducts.get(i);
-            }
-        }
-
-        return new Product(0, null, null, 0, 0, 0, 0);
+        return allProducts.get(productID);
     }
 
     public void updateProduct(int productID, Product product) {

@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -60,40 +61,51 @@ public class ModifyPartController implements Initializable {
 
     @FXML
     public void saveButtonPressed(ActionEvent event) {
+        int productMax = Integer.parseInt(partMaxField.getText());
+        int productMin = Integer.parseInt(partMinField.getText());
 
-        boolean isError = false;
-        isOutsourced = !inHouseToggle.isArmed();
-        try {
-            if (isOutsourced) {
-                Outsourced newPart = new Outsourced();
-                newPart.setCompanyName(compNameField.getText());
-                newPart.setName(partNameField.getText());
-                newPart.setInStock(Integer.parseInt(partInvField.getText()));
-                newPart.setPartID(Integer.parseInt(partIdField.getText()));
-                newPart.setMax(Integer.parseInt(partMaxField.getText()));
-                newPart.setMin(Integer.parseInt(partMinField.getText()));
-                newPart.setPrice(Double.parseDouble(partCostField.getText()));
+        if (productMax >= productMin) {
+            boolean isError = false;
+            isOutsourced = !inHouseToggle.isArmed();
+            try {
+                if (isOutsourced) {
+                    Outsourced newPart = new Outsourced();
+                    newPart.setCompanyName(compNameField.getText());
+                    newPart.setName(partNameField.getText());
+                    newPart.setInStock(Integer.parseInt(partInvField.getText()));
+                    newPart.setPartID(Integer.parseInt(partIdField.getText()));
+                    newPart.setMax(Integer.parseInt(partMaxField.getText()));
+                    newPart.setMin(Integer.parseInt(partMinField.getText()));
+                    newPart.setPrice(Double.parseDouble(partCostField.getText()));
 
-                baseInventory.updatePart(partIndex, newPart);
-            } else {
-                Inhouse newPart = new Inhouse();
-                newPart.setMachineID(Integer.parseInt(machineID.getText()));
-                newPart.setName(partNameField.getText());
-                System.out.println(newPart.getName());
-                newPart.setInStock(Integer.parseInt(partInvField.getText()));
-                System.out.println(newPart.getInStock());
-                newPart.setPartID(Integer.parseInt(partIdField.getText()));
-                newPart.setMax(Integer.parseInt(partMaxField.getText()));
-                newPart.setMin(Integer.parseInt(partMinField.getText()));
-                newPart.setPrice(Double.parseDouble(partCostField.getText()));
+                    baseInventory.updatePart(partIndex, newPart);
+                } else {
+                    Inhouse newPart = new Inhouse();
+                    newPart.setMachineID(Integer.parseInt(machineID.getText()));
+                    newPart.setName(partNameField.getText());
+                    System.out.println(newPart.getName());
+                    newPart.setInStock(Integer.parseInt(partInvField.getText()));
+                    System.out.println(newPart.getInStock());
+                    newPart.setPartID(Integer.parseInt(partIdField.getText()));
+                    newPart.setMax(Integer.parseInt(partMaxField.getText()));
+                    newPart.setMin(Integer.parseInt(partMinField.getText()));
+                    newPart.setPrice(Double.parseDouble(partCostField.getText()));
 
-                baseInventory.updatePart(partIndex, newPart);
+                    baseInventory.updatePart(partIndex, newPart);
+                }
+            } catch (NumberFormatException error) {
+                isError = true;
             }
-        } catch (NumberFormatException error) {
-            isError = true;
-        }
-        if (!isError) {
-            returnToMain(event);
+            if (!isError) {
+                returnToMain(event);
+            }
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Product Info Error");
+            alert.setHeaderText("Min/Max Error");
+            alert.setContentText("Error: Minimum Inventory must be less than Max Inventory");
+            alert.showAndWait();
         }
 
     }
