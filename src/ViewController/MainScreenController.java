@@ -168,40 +168,56 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void searchPartButtonPressed(ActionEvent event) {
-        String searchValue = productSearchField.getText();
+        String searchValue = partSearchField.getText();
         ObservableList<Part> displayParts = FXCollections.observableArrayList();
         boolean partFound = false;
-        searchParts.clear();
+        Part part;
         searchParts = Inventory.getAllParts();
         int foundId = 0;
 
         try {
             int numericSearch = Integer.parseInt(searchValue);
 
-            for (Part part : searchParts) {
-                if (part.getPartID() == numericSearch) {
+            for (int i = 0; i < searchParts.size(); i++) {
+                part = searchParts.get(i);
+                System.out.println(part.getPartID() == numericSearch);
+                if (part.getPartID() == Integer.parseInt(searchValue)) {
                     partFound = true;
-                    foundId = numericSearch - 1;
+                    displayParts.add(part);
+                    foundId = numericSearch;
                 }
-            }
+                System.out.println("Checking Part: " + i);
+                System.out.println(part.getName());
+                System.out.println(part.getPartID());
+                System.out.println(partFound);
+           }
         } catch(NumberFormatException exception) {
-            for(Part part : searchParts) {
-                if (part.getName().equals((searchValue))) {
+            for (int i = 0; i < searchParts.size(); i++) {
+                part = searchParts.get(i);
+                
+                if (part.getName().toLowerCase().contains(searchValue.toLowerCase())) {
                     partFound = true;
-                    foundId = part.getPartID()-1;
+                    displayParts.add(part);
+                    foundId = part.getPartID();
                 }
+                
+                System.out.println("Checking Part Name: " + i);
+                System.out.println(part.getName().toLowerCase().contains(searchValue.toLowerCase()));
+                System.out.println(part.getName());
+                System.out.println(part.getPartID());
+                System.out.println(partFound);
             }
         }
 
-        if (partFound) {
-            displayParts.add(Inventory.lookupPart(foundId));
-            partsTable.setItems(displayParts);
-        } else {
+        if (!partFound) {
+            partsTable.setItems(searchParts);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Search Error");
             alert.setHeaderText("Part not found");
             alert.setContentText("Error: Part Nor Found");
             alert.showAndWait();
+        } else {
+            partsTable.setItems(displayParts);
         }
 
 
@@ -213,37 +229,41 @@ public class MainScreenController implements Initializable {
         String searchValue = productSearchField.getText();
         ObservableList<Product> displayProducts = FXCollections.observableArrayList();
         boolean productFound = false;
-        searchProducts.clear();
         searchProducts = Inventory.getAllProducts();
+        Product product;
         int foundId = 0;
 
         try {
             int numericSearch = Integer.parseInt(searchValue);
 
-            for (Product product : searchProducts) {
+            for (int i = 0; i < searchProducts.size(); i++) {
+                product = searchProducts.get(i);
                 if (product.getProductID() == numericSearch) {
                     productFound = true;
-                    foundId = numericSearch - 1;
+                    displayProducts.add(product);
+                    foundId = numericSearch;
                 }
             }
         } catch(NumberFormatException exception) {
-            for(Product product : searchProducts) {
-                if (product.getName().equals((searchValue))) {
+            for(int i = 0; i < searchProducts.size(); i++) {
+                product = searchProducts.get(i);
+                if (product.getName().toLowerCase().contains(searchValue.toLowerCase())) {
                     productFound = true;
-                    foundId = product.getProductID()-1;
+                    displayProducts.add(product);
+                    foundId = product.getProductID();
                 }
             }
         }
 
-        if (productFound) {
-            displayProducts.add(Inventory.lookupProduct(foundId));
-            productsTable.setItems(displayProducts);
-        } else {
+        if (!productFound) {
+            productsTable.setItems(searchProducts);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Search Error");
             alert.setHeaderText("Product not found");
             alert.setContentText("Error: Product Nor Found");
             alert.showAndWait();
+        } else {
+            productsTable.setItems(displayProducts);
         }
 
     }

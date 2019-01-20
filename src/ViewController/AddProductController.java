@@ -45,6 +45,7 @@ public class AddProductController implements Initializable {
 
     private static Inventory baseInventory = MainScreenController.getInventory();
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    private int newProductID;
 
     @FXML
     void addProductPressed(ActionEvent event) {
@@ -94,7 +95,7 @@ public class AddProductController implements Initializable {
         if (productMax >= productMin) {
             Product newProduct = new Product();
 
-            newProduct.setProductID(Integer.parseInt(productIdField.getText()));
+            newProduct.setProductID(newProductID);
             newProduct.setName(productNameField.getText());
             newProduct.setInStock(Integer.parseInt(productInventoryField.getText()));
             newProduct.setPrice(Double.parseDouble(productPriceField.getText()));
@@ -183,6 +184,9 @@ public class AddProductController implements Initializable {
         invLevelDel.setCellValueFactory(cellData -> cellData.getValue().getInStockProperty().asObject());
         priceUnitDel.setCellValueFactory(cellData -> cellData.getValue().getPriceProperty().asObject());
         tableViewPartDel.setItems(associatedParts);
+        
+        newProductID = MainScreenController.Inventory.getAllProducts().size();
+        productIdField.setText("Auto-Generated: " + newProductID);
     }
 
 }
